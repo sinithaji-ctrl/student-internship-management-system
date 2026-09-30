@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Student Internship Management System</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
+body{background:#f4f6fb;color:#222}
+header{background:#243b64;color:white;padding:22px;text-align:center}
+header h1{font-size:26px}
+nav{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;background:white;padding:14px;box-shadow:0 2px 8px #ddd}
+nav button{border:0;background:#243b64;color:white;padding:10px 18px;border-radius:7px;cursor:pointer}
+.container{max-width:1000px;margin:25px auto;padding:0 16px}
+.card{background:white;border-radius:12px;padding:22px;margin-bottom:20px;box-shadow:0 3px 12px #ddd}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.stat{padding:20px;border-radius:10px;background:#eef3ff}
+.stat h2{font-size:28px;color:#243b64}
+input,select,textarea{width:100%;padding:11px;margin:8px 0 14px;border:1px solid #ccc;border-radius:7px}
+button.primary{background:#243b64;color:white;border:0;padding:11px 18px;border-radius:7px;cursor:pointer}
+table{width:100%;border-collapse:collapse;margin-top:12px}
+th,td{padding:11px;border-bottom:1px solid #ddd;text-align:left}
+.hidden{display:none}
+.badge{padding:5px 9px;border-radius:15px;background:#e8f5e9;color:#237a32}
+footer{text-align:center;padding:25px;color:#666}
+</style>
+</head>
+<body>
+<header>
+<h1>Student Internship Management System</h1>
+<p>Manage internships, applications and student opportunities</p>
+</header>
+
+<nav>
+<button onclick="show('home')">Dashboard</button>
+<button onclick="show('internships')">Internships</button>
+<button onclick="show('apply')">Apply</button>
+<button onclick="show('applications')">My Applications</button>
+</nav>
+
+<div class="container">
+<section id="home">
+<div class="card">
+<h2>Welcome, Student 👋</h2>
+<p style="margin-top:8px">Find internships and manage your applications in one place.</p>
+</div>
+<div class="grid">
+<div class="stat"><h2>12</h2><p>Available Internships</p></div>
+<div class="stat"><h2>4</h2><p>Applications</p></div>
+<div class="stat"><h2>2</h2><p>Shortlisted</p></div>
+<div class="stat"><h2>1</h2><p>Completed</p></div>
+</div>
+</section>
+
+<section id="internships" class="hidden">
+<div class="card">
+<h2>Available Internships</h2>
+<table>
+<tr><th>Company</th><th>Role</th><th>Mode</th><th>Action</th></tr>
+<tr><td>Tech Solutions</td><td>Web Development</td><td>Hybrid</td><td><button class="primary" onclick="selectRole('Web Development')">Apply</button></td></tr>
+<tr><td>Innovate Labs</td><td>Python Intern</td><td>Remote</td><td><button class="primary" onclick="selectRole('Python Intern')">Apply</button></td></tr>
+<tr><td>Digital Works</td><td>UI/UX Intern</td><td>On-site</td><td><button class="primary" onclick="selectRole('UI/UX Intern')">Apply</button></td></tr>
+</table>
+</div>
+</section>
+
+<section id="apply" class="hidden">
+<div class="card">
+<h2>Internship Application</h2>
+<label>Student Name</label>
+<input id="name" placeholder="Enter your name">
+<label>Email</label>
+<input id="email" type="email" placeholder="Enter your email">
+<label>Internship Role</label>
+<select id="role">
+<option>Web Development</option>
+<option>Python Intern</option>
+<option>UI/UX Intern</option>
+</select>
+<label>Skills</label>
+<input id="skills" placeholder="HTML, CSS, JavaScript, Python...">
+<label>Why are you interested?</label>
+<textarea id="reason" rows="4" placeholder="Write a short reason"></textarea>
+<button class="primary" onclick="submitApplication()">Submit Application</button>
+<p id="msg" style="margin-top:15px"></p>
+</div>
+</section>
+
+<section id="applications" class="hidden">
+<div class="card">
+<h2>My Applications</h2>
+<table id="appTable">
+<tr><th>Name</th><th>Role</th><th>Status</th></tr>
+</table>
+</div>
+</section>
+</div>
+
+<footer>Student Internship Management System | Academic Project Prototype</footer>
+
+<script>
+function show(id){
+  document.querySelectorAll('section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+function selectRole(role){
+  show('apply');
+  document.getElementById('role').value=role;
+}
+function submitApplication(){
+  const name=document.getElementById('name').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const role=document.getElementById('role').value;
+  if(!name || !email){
+    document.getElementById('msg').textContent='Please enter your name and email.';
+    return;
+  }
+  const row=document.createElement('tr');
+  row.innerHTML='<td>'+name+'</td><td>'+role+'</td><td><span class="badge">Submitted</span></td>';
+  document.getElementById('appTable').appendChild(row);
+  document.getElementById('msg').textContent='Application submitted successfully!';
+  document.getElementById('name').value='';
+  document.getElementById('email').value='';
+  document.getElementById('skills').value='';
+  document.getElementById('reason').value='';
+}
+show('home');
+</script>
+</body>
+</html>
